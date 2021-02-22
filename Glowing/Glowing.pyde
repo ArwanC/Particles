@@ -5,17 +5,18 @@ fr = 120
 max_fr = 120
 looping = True
 hide_info = False
+collision = False
 
 def setup():
-    global glowers
+    global objects
     size(800, 600, FX2D)
     # fullScreen(FX2D)
     frameRate(fr)
     pixelDensity(displayDensity());
-    nb_glowers = 1
-    glowers = []
-    for i in range(nb_glowers):
-        glowers.append(Glower())
+    nb_objects = 1
+    objects = []
+    for i in range(nb_objects):
+        objects.append(Glower(objects))
     
     
 def draw():
@@ -23,19 +24,21 @@ def draw():
     background(0)
     noStroke()
     
-    for g in glowers:
+    for o in objects:
+        if collision:
+            o.collide()
         if looping:
-            g.update()
-        g.plot()
+            o.update()
+        o.plot()
     
     if mousePressed:
-        for g in glowers:
-            g.attraction = False
+        for o in objects:
+            o.attraction = False
             
     if not hide_info:
         textSize(30)
         fill(255, 255, 255, 100)
-        text("count "+str(len(glowers)), 20, 40)
+        text("count "+str(len(objects)), 20, 40)
         
         if frameCount%60 == 1:
             fr = frameRate
@@ -53,16 +56,16 @@ def draw():
     
     
 def mouseReleased():
-    for g in glowers:
-        g.attraction = True    
+    for o in objects:
+        o.attraction = True    
 
 
 def keyPressed():
-    global glowers, looping, hide_info, max_fr
+    global objects, looping, hide_info, max_fr, collision
     if key == ' ':
-        glowers.append(Glower())
+        objects.append(Glower(objects, collision))
     elif key == 'R':
-        glowers = []
+        objects = []
     elif key == 'F':
         looping = not looping
     elif key == 'H':
@@ -73,4 +76,8 @@ def keyPressed():
         else:
             max_fr = 30
         frameRate(max_fr)
+    elif key == 'C':
+        collision = not collision
+        for object in objects:
+            object.collision = not object.collision
         
