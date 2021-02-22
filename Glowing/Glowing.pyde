@@ -6,6 +6,7 @@ max_fr = 120
 looping = True
 hide_info = False
 collision = False
+speed_limit = False
 
 def setup():
     global objects
@@ -37,16 +38,34 @@ def draw():
             
     if not hide_info:
         textSize(30)
-        fill(255, 255, 255, 100)
-        text("count "+str(len(objects)), 20, 40)
+        alfa = 100
+        # Object count
+        fill(255, 255, 255, alfa)
+        text("count: "+str(len(objects)), 20, 40)
         
+        # FPS
         if frameCount%60 == 1:
             fr = frameRate
         if fr >= 30:
-            fill(0, 255, 0, 100)
+            fill(0, 255, 0, alfa)
         else:
-            fill(255, 0, 0, 100)
-        text("fps "+str(int(fr)), 20, 80)
+            fill(255, 0, 0, alfa)
+        text("fps: "+str(int(fr)), 20, 80)
+        
+        # Collision
+        if not collision:
+            fill(255, 0, 0, alfa)
+        else:
+            fill(0, 255, 0, alfa)
+        text("collision: "+str(collision), 160, 40)
+        
+        # Speed
+        if speed_limit:
+            fill(255, 0, 0, alfa)
+        else:
+            fill(0, 255, 0, alfa)
+        text("speed: "+("Slowed" if speed_limit else "Max"), 160, 80)
+        
     
     noStroke()
     fill(255)
@@ -61,7 +80,7 @@ def mouseReleased():
 
 
 def keyPressed():
-    global objects, looping, hide_info, max_fr, collision
+    global objects, looping, hide_info, max_fr, collision, speed_limit
     if key == ' ':
         objects.append(Glower(objects, collision))
     elif key == 'R':
@@ -71,6 +90,7 @@ def keyPressed():
     elif key == 'H':
         hide_info = not hide_info
     elif key == 'S':
+        speed_limit = not speed_limit
         if max_fr == 30:
             max_fr = 120
         else:
