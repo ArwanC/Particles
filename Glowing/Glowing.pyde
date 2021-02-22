@@ -2,38 +2,49 @@ from Glow import Glower
 import random
 
 def setup():
-    global glowers, click_intensity, click_reactivity
+    global glowers
     size(800, 600, FX2D)
     # fullScreen(FX2D)
     pixelDensity(displayDensity());
-    nb_glowers = 100
-    click_intensity = 400
-    click_reactivity = 0.50
+    nb_glowers = 1
     glowers = []
     for i in range(nb_glowers):
         glowers.append(Glower())
     
 def draw():
+    # global glowers
     background(0)
     noStroke()
     # print(frameRate)
-    for glower in glowers:
-        glower.plot()
+    for g in glowers:
+        g.update()
+        g.plot()
     
-def mouseClicked():
-    for glower in glowers:
-        if is_near_mouse(glower.x, glower.y):
-            glower.x = lerp(glower.x,
-                            glower.x+random.uniform(-click_intensity, click_intensity),
-                            click_reactivity)
-            glower.y = lerp(glower.y,
-                            glower.y+random.uniform(-click_intensity, click_intensity),
-                            click_reactivity)
-        
-
-def is_near_mouse(x, y):
-    if (x - mouseX)**2 + (y - mouseY)**2 < 60**2:
-        return True
+    if mousePressed:
+        for g in glowers:
+            g.attraction = False
+    
+    textSize(30)
+    fill(255, 255, 255, 100)
+    text("count "+str(len(glowers)), 20, 40)
+    if frameRate >= 30:
+        fill(0, 255, 0, 100)
     else:
-        return False
+        fill(255, 0, 0, 100)
+    text("fps "+str(int(frameRate)), 20, 80)
+    
+        
+# def mouseClicked():
+#     glowers.append(Glower())
+    
+def mouseReleased():
+    for g in glowers:
+        g.attraction = True    
+
+def keyPressed():
+    global glowers
+    if key == ' ':
+        glowers.append(Glower())
+    elif key == 'R':
+        glowers = []
     
