@@ -7,6 +7,7 @@ looping = True
 hide_info = False
 collision = False
 speed_limit = False
+record = False
 
 def setup():
     global objects
@@ -73,6 +74,10 @@ def draw():
         fill(255, 0, 0)
     ellipse(mouseX, mouseY, 8, 8)
     
+    if record:
+        saveFrame("frames/particles-######.png")
+        fill(255, 0, 0)
+        ellipse(width-20, 20, 20, 20)
     
 def mouseReleased():
     for o in objects:
@@ -80,24 +85,26 @@ def mouseReleased():
 
 
 def keyPressed():
-    global objects, looping, hide_info, max_fr, collision, speed_limit
+    global objects, looping, hide_info, max_fr, collision, speed_limit, record
     if key == ' ':
         objects.append(Glower(objects, collision))
-    elif key == 'R':
+    elif key == ('R' or 'r'):
         objects = []
-    elif key == 'F':
+    elif key == ('F' or 'f'):
         looping = not looping
-    elif key == 'H':
+    elif key == ('H' or 'h'):
         hide_info = not hide_info
-    elif key == 'S':
+    elif key == ('S' or 's'):
         speed_limit = not speed_limit
         if max_fr == 30:
             max_fr = 120
         else:
             max_fr = 30
         frameRate(max_fr)
-    elif key == 'C':
+    elif key == ('C' or 'c'):
         collision = not collision
         for object in objects:
             object.collision = not object.collision
+    elif key == '\n':
+        record = not record
         
