@@ -7,9 +7,9 @@ Just a fun/visualy pleasing particles simulator using Processing.  FPS is low be
 
 * "space": Add a particle
 * "c": Toggle collision between particles
-* "mouse press": Cancel the attraction of the particles towords the mouse while pressed
-* "s": Toggle slow-motion (Will drop the FPS from 120 to 30. Won't be noticeable if the simulation is already lagging and running close to 30FPS)
+* "mouse press": Cancel the attraction of the particles towards the mouse while pressed
+* "s": Toggle slow-motion (will drop the FPS from 120 to 30. Won't be noticeable if the simulation is already lagging and running close to 30FPS)
 * "r": Reset particles count to 0
 * "f": Freeze frame
-* "h": Hide info (particles count, FPS, speed, ...)
-* "return": Record frames as .png 
+* "h": Toggle info (particles count, FPS, speed, ...)
+* "return": Toggle recording (records frames as .png)
